@@ -1,15 +1,56 @@
-# Reproducible Research: Peer Assessment 1
+# Reproducible Research: Peer Assessment 1 - J Sieber 5/17/14
 
 
 ## Loading and preprocessing the data
 
+Load any librarys.
+```{r echo=TRUE}
+    library(ggplot2)
+```
 
+Load data into variable called act.  Make sure activity.csv is in working directory.
+
+```{r echo=TRUE}
+    act<-read.csv("./activity.csv")
+    act$date <- strptime(activity.data$date,'%Y-%m-%d')
+```
+
+Remove all NAs from data.
+```{r echo=TRUE}
+    good<-!is.na(act[,1])
+    act<-act[good,]
+```
 
 ## What is mean total number of steps taken per day?
 
+Calculate mean and sum per day
+```{r echo=TRUE}
+    PerDay<-data.frame(sapply(split(act[,1],act[,2]),sum))
+    len<-dim(PerDay)[1]
+    names(PerDay)<-c("Sum")
+    PerDay$Day<-c(1:len)
+    PerDay$Mean<-sapply(split(act[,1],act[,2]),mean)
+    PerDay$Median<-sapply(split(act[,1],act[,2]),median)
+```
+
+Display histogram of the total number of steps taken each day.
+```{r echo=TRUE}
+
+    qplot(Sum, data=PerDay)
+
+```
+
+Display the mean and median steps per day.
+```{r echo=TRUE}
+    PerDay[,3:4]
+```
 
 
 ## What is the average daily activity pattern?
+Make a time series plot
+```{r plot.interval.avgsteps}
+with(act,plot(interval,mean(act$steps,na.rm=TRUE)),xlab="Interval",ylab="Average Number of Steps",type="l",main="Average Number of Steps across all Days by Interval"))
+```
 
 
 
@@ -18,3 +59,14 @@
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r echo=TRUE}
+
+```
+
+
+
+```{r echo=TRUE, fig.width=7, fig.height=6}
+
+```
+
